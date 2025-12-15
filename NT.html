@@ -249,7 +249,19 @@
       requestAnimationFrame(() => window.parent?.postMessage({ type:'navigate', url }, '*'));
     };
 
-// SEARCH HANDLER
+<!-- SEARCH BAR -->
+<form id="searchForm" class="search-container">
+  <input id="searchInput" placeholder="Search the web..." autocomplete="off">
+  <select id="engineSelect">
+    <option value="https://www.startpage.com/?q=" selected>Startpage</option>
+    <option value="https://search.brave.com/search?q=">Brave</option>
+    <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
+    <option value="https://www.google.com/search?q=">Google</option>
+    <option value="https://www.bing.com/search?q=">Bing</option>
+  </select>
+</form>
+
+<script>
 const searchForm = document.getElementById('searchForm');
 const searchInput = document.getElementById('searchInput');
 const engineSelect = document.getElementById('engineSelect');
@@ -264,8 +276,7 @@ searchForm.addEventListener('submit', e => {
   if (window.parent) {
     const loader = document.getElementById('loader');
     loader.classList.add('show');
-    loader.offsetHeight; // Force reflow
-
+    loader.offsetHeight; // force reflow
     requestAnimationFrame(() => {
       window.parent.postMessage({ type: 'navigate', url }, '*');
     });
@@ -277,6 +288,9 @@ searchInput.addEventListener('keydown', e => {
     e.preventDefault();
     searchForm.dispatchEvent(new Event('submit', { cancelable: true }));
   }
+});
+</script>
+
 });
 
 });

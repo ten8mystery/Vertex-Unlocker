@@ -13,8 +13,6 @@
       --panel: #0d0d0d;
       --panel-soft: #131313;
       --gold-1: #ffe08a;
-      --gold-2: #ffbf3f;
-      --gold-3: #cfa335;
       --muted: #9b9b9b;
     }
 
@@ -43,7 +41,6 @@
       animation: fade 1s ease;
     }
 
-    /* SEARCH BAR */
     .search-container {
       display: flex;
       align-items: center;
@@ -76,7 +73,6 @@
       cursor: pointer;
     }
 
-    /* ICON GRID */
     .icons {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
@@ -143,7 +139,6 @@
       color: var(--muted);
     }
 
-    /* LOADER */
     .loading-overlay {
       position: fixed;
       inset: 0;
@@ -155,9 +150,7 @@
       backdrop-filter: blur(4px);
     }
 
-    .loading-overlay.show {
-      display: flex;
-    }
+    .loading-overlay.show { display: flex; }
 
     .spinner {
       width: 60px;
@@ -169,10 +162,7 @@
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
-    @keyframes fade {
-      from { opacity:0; transform:translateY(-10px) }
-      to { opacity:1; transform:translateY(0) }
-    }
+    @keyframes fade { from { opacity:0; transform:translateY(-10px) } to { opacity:1; transform:translateY(0) } }
   </style>
 </head>
 <body>
@@ -180,20 +170,17 @@
 
   <h1 class="title">Vertex Unlocker</h1>
 
-  <!-- SEARCH BAR -->
   <form id="searchForm" class="search-container">
     <input id="searchInput" placeholder="Search the web..." autocomplete="off">
-<select id="engineSelect">
-  <option value="https://www.startpage.com/?q=" selected>Startpage</option>
-  <option value="https://search.brave.com/search?q=">Brave</option>
-  <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
-  <option value="https://www.google.com/search?q=">Google</option>
-  <option value="https://www.bing.com/search?q=">Bing</option>
-</select>
-
+    <select id="engineSelect">
+      <option value="https://www.startpage.com/?q=" selected>Startpage</option>
+      <option value="https://search.brave.com/search?q=">Brave</option>
+      <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
+      <option value="https://www.google.com/search?q=">Google</option>
+      <option value="https://www.bing.com/search?q=">Bing</option>
+    </select>
   </form>
 
-  <!-- ICON GRID -->
   <div class="icons" id="iconGrid">
     <div class="shortcut-item">
       <a href="https://youtube.com" class="icon"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg"></a>
@@ -232,7 +219,6 @@
       <span class="shortcut-label">Spotify</span>
     </div>
 
-    <!-- ADD NEW -->
     <div class="shortcut-item" id="addWrapper">
       <div class="icon" id="addNewShortcut"><span style="font-size:1.8rem;color:var(--gold-1)">+</span></div>
       <span class="shortcut-label">Add New</span>
@@ -249,51 +235,24 @@
       requestAnimationFrame(() => window.parent?.postMessage({ type:'navigate', url }, '*'));
     };
 
-<!-- SEARCH BAR -->
-<form id="searchForm" class="search-container">
-  <input id="searchInput" placeholder="Search the web..." autocomplete="off">
-  <select id="engineSelect">
-    <option value="https://www.startpage.com/?q=" selected>Startpage</option>
-    <option value="https://search.brave.com/search?q=">Brave</option>
-    <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
-    <option value="https://www.google.com/search?q=">Google</option>
-    <option value="https://www.bing.com/search?q=">Bing</option>
-  </select>
-</form>
+    // SEARCH BAR
+    const searchForm = $('#searchForm');
+    const searchInput = $('#searchInput');
+    const engineSelect = $('#engineSelect');
 
-<script>
-const searchForm = document.getElementById('searchForm');
-const searchInput = document.getElementById('searchInput');
-const engineSelect = document.getElementById('engineSelect');
-
-searchForm.addEventListener('submit', e => {
-  e.preventDefault();
-  const query = searchInput.value.trim();
-  if (!query) return;
-
-  const url = engineSelect.value + encodeURIComponent(query);
-
-  if (window.parent) {
-    const loader = document.getElementById('loader');
-    loader.classList.add('show');
-    loader.offsetHeight; // force reflow
-    requestAnimationFrame(() => {
-      window.parent.postMessage({ type: 'navigate', url }, '*');
+    searchForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const query = searchInput.value.trim();
+      if (!query) return;
+      nav(engineSelect.value + encodeURIComponent(query));
     });
-  }
-});
 
-searchInput.addEventListener('keydown', e => {
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    searchForm.dispatchEvent(new Event('submit', { cancelable: true }));
-  }
-});
-</script>
-
-});
-
-});
+    searchInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        searchForm.dispatchEvent(new Event('submit', { cancelable: true }));
+      }
+    });
 
     // ICON CLICK + ADD NEW
     $('#iconGrid').addEventListener('click', e => {
@@ -341,7 +300,6 @@ searchInput.addEventListener('keydown', e => {
       $('#quote').textContent = "“The best error message is the one that never shows up.”";
     }
 
-    // INITIALIZE CUSTOM SHORTCUTS
     renderCustom();
   </script>
 </body>

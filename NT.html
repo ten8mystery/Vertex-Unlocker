@@ -7,10 +7,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root { 
-      --bg: #030308;
-      --fg: #e6eef8;
-      --acc: #1a1a1a;
-      --hvr: #2a2a2a;
+      --bg: #050505;
+      --fg: #f5f5f5;
+      --panel: #0d0d0d;
+      --panel-soft: #131313;
+      --gold-1: #ffe08a;
+      --gold-2: #ffbf3f;
+      --gold-3: #cfa335;
+      --muted: #9b9b9b;
     }
 
     body { 
@@ -24,8 +28,6 @@
       height: 100vh; 
       text-align: center;
       overflow: hidden;
-
-      /* NEW — recenters page */
       justify-content: flex-start;
       padding-top: 60px;
     }
@@ -35,15 +37,18 @@
       margin: 0 0 20px;
       font-weight: 600; 
       letter-spacing: 1px; 
+      background: linear-gradient(120deg, #fff, var(--gold-1));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       animation: fade 1s ease;
     }
 
-    /* NEW — shortcut title spacing */
     #shortcutsTitle {
       margin-top: 10px;
       margin-bottom: 20px;
       font-size: 1.4rem;
       font-weight: 600;
+      color: var(--gold-1);
       opacity: 0.85;
       animation: fade 1s ease;
     }
@@ -68,12 +73,12 @@
     .icon { 
       width: 65px; 
       height: 65px; 
-      background: var(--acc); 
+      background: var(--panel); 
       border-radius: 1rem; 
       display: flex; 
       justify-content: center; 
       align-items: center; 
-      box-shadow: 0 2px 10px rgba(0,0,0,0.5); 
+      box-shadow: 0 2px 10px rgba(255,215,120,0.3); 
       transition: .25s; 
       margin-bottom: 8px; 
       cursor: pointer; 
@@ -81,13 +86,14 @@
 
     .shortcut-item:hover .icon { 
       transform: translateY(-4px) scale(1.1); 
-      background: var(--hvr); 
+      background: var(--panel-soft); 
+      box-shadow: 0 0 20px rgba(255,215,120,0.5);
     }
 
     .shortcut-label { 
       font-size: .85rem; 
       font-weight: 500; 
-      color: rgba(255,255,255,0.7); 
+      color: var(--muted); 
       white-space: nowrap; 
       overflow: hidden; 
       text-overflow: ellipsis; 
@@ -96,7 +102,7 @@
     }
 
     .shortcut-item:hover .shortcut-label { 
-      color: #fff; 
+      color: var(--gold-1); 
     }
 
     .icon img { 
@@ -107,7 +113,7 @@
 
     .extras { 
       margin-top: 25px; 
-      color: #aaa; 
+      color: var(--muted); 
     }
 
     .loading-overlay { 
@@ -128,8 +134,8 @@
     .spinner { 
       width: 60px; 
       height: 60px; 
-      border: 4px solid #333; 
-      border-top-color: #eaeaea; 
+      border: 4px solid rgba(255,215,120,0.1);
+      border-left-color: var(--gold-1); 
       border-radius: 50%; 
       animation: spin 1s linear infinite; 
     }
@@ -153,8 +159,6 @@
   <div class="loading-overlay" id="loader"><div class="spinner"></div></div>
 
   <h1 class="clock">00:00:00</h1>
-
-  <!-- NEW SHORTCUT LABEL -->
   <h2 id="shortcutsTitle">Shortcuts:</h2>
 
   <div class="icons" id="iconGrid">
@@ -169,7 +173,7 @@
     <div class="shortcut-item"><a href="https://spotify.com" class="icon"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/spotify.svg"></a><span>Spotify</span></div>
     
     <div class="shortcut-item">
-      <div class="icon" id="addNewShortcut"><span style="font-size:2rem;color:#fff;">+</span></div>
+      <div class="icon" id="addNewShortcut"><span style="font-size:2rem;color:var(--gold-1);">+</span></div>
       <span class="shortcut-label">Add New</span>
     </div>
   </div>
@@ -217,7 +221,7 @@
       shortcuts.forEach(s => {
         const div = document.createElement('div');
         div.className = 'shortcut-item custom';
-        div.innerHTML = `<a href="${s.url}" class="icon"><i class="fa-solid fa-link" style="font-size:24px;color:#fff"></i></a><span class="shortcut-label">${s.name}</span>`;
+        div.innerHTML = `<a href="${s.url}" class="icon"><i class="fa-solid fa-link" style="font-size:24px;color:var(--gold-1)"></i></a><span class="shortcut-label">${s.name}</span>`;
         $('#iconGrid').insertBefore(div, addContainer);
       });
     }

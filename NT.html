@@ -183,12 +183,14 @@
   <!-- SEARCH BAR -->
   <form id="searchForm" class="search-container">
     <input id="searchInput" placeholder="Search the web..." autocomplete="off">
-    <select id="engineSelect">
-      <option value="https://search.brave.com/search?q=" selected>Brave</option>
-      <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
-      <option value="https://www.google.com/search?q=">Google</option>
-      <option value="https://www.bing.com/search?q=">Bing</option>
-    </select>
+<select id="engineSelect">
+  <option value="https://www.startpage.com/?q=" selected>Startpage</option>
+  <option value="https://search.brave.com/search?q=">Brave</option>
+  <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
+  <option value="https://www.google.com/search?q=">Google</option>
+  <option value="https://www.bing.com/search?q=">Bing</option>
+</select>
+
   </form>
 
   <!-- ICON GRID -->
@@ -253,31 +255,30 @@ const searchInput = document.getElementById('searchInput');
 const engineSelect = document.getElementById('engineSelect');
 
 searchForm.addEventListener('submit', e => {
-  e.preventDefault(); // Prevent normal form submission
+  e.preventDefault();
   const query = searchInput.value.trim();
   if (!query) return;
 
   const url = engineSelect.value + encodeURIComponent(query);
 
   if (window.parent) {
-    // Show loader
     const loader = document.getElementById('loader');
     loader.classList.add('show');
     loader.offsetHeight; // Force reflow
 
-    // Navigate via parent message
     requestAnimationFrame(() => {
       window.parent.postMessage({ type: 'navigate', url }, '*');
     });
   }
 });
 
-// Optional: trigger search when pressing Enter in the input
 searchInput.addEventListener('keydown', e => {
   if (e.key === 'Enter') {
     e.preventDefault();
     searchForm.dispatchEvent(new Event('submit', { cancelable: true }));
   }
+});
+
 });
 
     // ICON CLICK + ADD NEW

@@ -2,164 +2,174 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>New Tab</title>
+  <title>Vertex Unlocker</title>
+
   <script src="quotes.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
-    :root { 
+    :root {
       --bg: #050505;
       --fg: #f5f5f5;
       --panel: #0d0d0d;
       --panel-soft: #131313;
       --gold-1: #ffe08a;
-      --gold-2: #ffbf3f;
-      --gold-3: #cfa335;
       --muted: #9b9b9b;
     }
 
-    body { 
-      margin: 0; 
-      font-family: 'Inter', sans-serif; 
-      background: var(--bg); 
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
       color: var(--fg);
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      height: 100vh; 
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
       overflow: hidden;
-      justify-content: flex-start;
-      padding-top: 60px;
+      padding-top: 40px;
     }
 
-    h1.title { 
-      font-size: 3rem; 
-      margin: 0 0 20px;
-      font-weight: 900; 
-      letter-spacing: 1px; 
+    h1.title {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      font-weight: 900;
       background: linear-gradient(120deg, #fff, var(--gold-1));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: fade 1s ease;
     }
 
-    #shortcutsTitle {
-      margin-top: 10px;
-      margin-bottom: 20px;
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: var(--gold-1);
-      opacity: 0.85;
-      animation: fade 1s ease;
-    }
-
-    .icons { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); 
-      gap: 20px; 
-      width: 400px; 
+    /* SEARCH BAR */
+    .search-container {
+      display: flex;
+      align-items: center;
+      background: var(--panel);
+      padding: 12px 18px;
+      border-radius: 2rem;
+      width: 550px;
       max-width: 90%;
+      box-shadow: 0 6px 30px rgba(0,0,0,.7);
+      margin-bottom: 25px;
+      animation: fade .8s ease;
     }
 
-    .shortcut-item { 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      width: 80px; 
+    .search-container input {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--fg);
+      font-size: 1rem;
+    }
+
+    .search-container select {
+      background: var(--panel-soft);
+      border: none;
+      color: var(--fg);
+      border-radius: .6rem;
+      padding: 6px 10px;
+      margin-left: 10px;
       cursor: pointer;
     }
 
-    .icon { 
-      width: 56px; 
-      height: 56px; 
-      background: var(--panel); 
-      border-radius: 1rem; 
-      display: flex; 
-      justify-content: center; 
-      align-items: center; 
-      box-shadow: 0 2px 10px rgba(255,215,120,0.3); 
-      transition: .25s; 
-      margin-bottom: 8px; 
+    /* ICON GRID */
+    .icons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+      gap: 20px;
+      width: 400px;
+      max-width: 90%;
     }
 
-    .shortcut-item:hover .icon { 
-      transform: translateY(-4px) scale(1.1); 
-      background: var(--panel-soft); 
-      box-shadow: 0 0 20px rgba(255,215,120,0.5);
+    .shortcut-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 80px;
+      cursor: pointer;
     }
 
-    .shortcut-label { 
-      font-size: .85rem; 
-      font-weight: 500; 
-      color: var(--muted); 
-      white-space: nowrap; 
-      overflow: hidden; 
-      text-overflow: ellipsis; 
-      width: 100%; 
-      transition: .2s; 
+    .icon {
+      width: 56px;
+      height: 56px;
+      background: var(--panel);
+      border-radius: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(255,215,120,.25);
+      transition: .25s;
+      margin-bottom: 8px;
+    }
+
+    .shortcut-item:hover .icon {
+      transform: translateY(-4px) scale(1.1);
+      background: var(--panel-soft);
+      box-shadow: 0 0 18px rgba(255,215,120,.45);
+    }
+
+    .icon img {
+      width: 22px;
+      height: 22px;
+      filter: brightness(0) invert(1);
       pointer-events: none;
     }
 
-    .shortcut-item:hover .shortcut-label { 
-      color: var(--gold-1); 
+    .shortcut-label {
+      font-size: .85rem;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      pointer-events: none;
     }
 
-    .icon img { 
-      width: 22px; 
-      height: 22px; 
-      filter: brightness(0) invert(1); 
-      pointer-events: none;
+    .shortcut-item:hover .shortcut-label {
+      color: var(--gold-1);
     }
 
     #addNewShortcut {
-      background:
-        linear-gradient(145deg, rgba(255,215,120,0.2), rgba(255,215,120,0.05));
-      border: 1px dashed rgba(255,215,120,0.4);
+      border: 1px dashed rgba(255,215,120,.4);
+      background: linear-gradient(145deg, rgba(255,215,120,.15), rgba(255,215,120,.05));
     }
 
-    #addNewShortcut span {
-      font-size: 1.8rem;
-      color: var(--gold-1);
-      pointer-events: none;
+    .extras {
+      margin-top: 25px;
+      color: var(--muted);
     }
 
-    .extras { 
-      margin-top: 25px; 
-      color: var(--muted); 
+    /* LOADER */
+    .loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(13,13,13,.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 99;
+      backdrop-filter: blur(4px);
     }
 
-    .loading-overlay { 
-      position: fixed; 
-      inset: 0; 
-      background: rgba(13,13,13,0.8); 
-      display: none; 
-      align-items: center; 
-      justify-content: center; 
-      z-index: 9; 
-      backdrop-filter: blur(4px); 
+    .loading-overlay.show {
+      display: flex;
     }
 
-    .loading-overlay.show { 
-      display: flex; 
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 4px solid rgba(255,215,120,.1);
+      border-left-color: var(--gold-1);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
     }
 
-    .spinner { 
-      width: 60px; 
-      height: 60px; 
-      border: 4px solid rgba(255,215,120,0.1);
-      border-left-color: var(--gold-1); 
-      border-radius: 50%; 
-      animation: spin 1s linear infinite; 
-    }
-
-    @keyframes fade { 
-      from { opacity:0; transform:translateY(-10px) } 
-      to { opacity:1; transform:translateY(0) } 
-    }
-
-    @keyframes spin { 
-      to { transform:rotate(360deg) } 
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fade {
+      from { opacity:0; transform:translateY(-10px) }
+      to { opacity:1; transform:translateY(0) }
     }
   </style>
 </head>
@@ -170,40 +180,38 @@
   </div>
 
   <h1 class="title">Vertex Unlocker</h1>
-  <h2 id="shortcutsTitle">Shortcuts:</h2>
 
+  <!-- SEARCH -->
+  <form id="searchForm" class="search-container">
+    <input id="searchInput" placeholder="Search the web..." autocomplete="off">
+    <select id="engineSelect">
+      <option value="https://search.brave.com/search?q=" selected>Brave</option>
+      <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
+      <option value="https://www.google.com/search?q=">Google</option>
+      <option value="https://www.bing.com/search?q=">Bing</option>
+    </select>
+  </form>
+
+  <!-- ICONS -->
   <div class="icons" id="iconGrid">
     <div class="shortcut-item">
-      <a href="https://youtube.com" class="icon">
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg">
-      </a>
+      <a href="https://youtube.com" class="icon"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg"></a>
       <span class="shortcut-label">YouTube</span>
     </div>
 
     <div class="shortcut-item">
-      <a href="https://github.com" class="icon">
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg">
-      </a>
+      <a href="https://github.com" class="icon"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg"></a>
       <span class="shortcut-label">GitHub</span>
     </div>
 
     <div class="shortcut-item">
-      <a href="https://mail.google.com" class="icon">
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/gmail.svg">
-      </a>
-      <span class="shortcut-label">Gmail</span>
-    </div>
-
-    <div class="shortcut-item">
-      <a href="https://spotify.com" class="icon">
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/spotify.svg">
-      </a>
+      <a href="https://spotify.com" class="icon"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/spotify.svg"></a>
       <span class="shortcut-label">Spotify</span>
     </div>
 
-    <div class="shortcut-item" id="addNewWrapper">
+    <div class="shortcut-item" id="addWrapper">
       <div class="icon" id="addNewShortcut">
-        <span>+</span>
+        <span style="font-size:1.8rem;color:var(--gold-1)">+</span>
       </div>
       <span class="shortcut-label">Add New</span>
     </div>
@@ -223,56 +231,61 @@
       );
     };
 
-    document.getElementById('iconGrid').addEventListener('click', e => {
+    // SEARCH
+    $('#searchForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const q = $('#searchInput').value.trim();
+      if (!q) return;
+      nav($('#engineSelect').value + encodeURIComponent(q));
+    });
+
+    // ICON CLICK + ADD
+    $('#iconGrid').addEventListener('click', e => {
       const link = e.target.closest('a');
-      const addBtn = e.target.closest('#addNewShortcut');
+      const add = e.target.closest('#addNewShortcut');
 
       if (link) {
         e.preventDefault();
         nav(link.href);
-        return;
       }
 
-      if (addBtn) {
-        const name = prompt("Name:");
+      if (add) {
+        const name = prompt('Name:');
         if (!name) return;
-
-        let url = prompt("URL:");
+        let url = prompt('URL:');
         if (!url) return;
         if (!url.startsWith('http')) url = 'https://' + url;
 
-        const shortcuts = JSON.parse(localStorage.getItem('shortcuts') || '[]');
-        shortcuts.push({ name, url });
-        localStorage.setItem('shortcuts', JSON.stringify(shortcuts));
+        const list = JSON.parse(localStorage.getItem('shortcuts') || '[]');
+        list.push({ name, url });
+        localStorage.setItem('shortcuts', JSON.stringify(list));
         renderCustom();
       }
     });
 
     function renderCustom() {
       document.querySelectorAll('.custom').forEach(e => e.remove());
+      const list = JSON.parse(localStorage.getItem('shortcuts') || '[]');
+      const anchor = $('#addWrapper');
 
-      const shortcuts = JSON.parse(localStorage.getItem('shortcuts') || '[]');
-      const addContainer = document.getElementById('addNewWrapper');
-
-      shortcuts.forEach(s => {
-        const div = document.createElement('div');
-        div.className = 'shortcut-item custom';
-        div.innerHTML = `
+      list.forEach(s => {
+        const d = document.createElement('div');
+        d.className = 'shortcut-item custom';
+        d.innerHTML = `
           <a href="${s.url}" class="icon">
-            <i class="fa-solid fa-link" style="font-size:22px;color:var(--gold-1)"></i>
+            <i class="fa-solid fa-link" style="color:var(--gold-1);font-size:22px"></i>
           </a>
           <span class="shortcut-label">${s.name}</span>
         `;
-        document.getElementById('iconGrid').insertBefore(div, addContainer);
+        $('#iconGrid').insertBefore(d, anchor);
       });
     }
 
-    if (window.QUOTES && window.QUOTES.length > 0) {
-      $('#quote').textContent =
-        window.QUOTES[Math.floor(Math.random() * window.QUOTES.length)];
+    // QUOTES
+    if (window.QUOTES?.length) {
+      $('#quote').textContent = QUOTES[Math.floor(Math.random()*QUOTES.length)];
     } else {
-      $('#quote').textContent =
-        "“The best error message is the one that never shows up.”";
+      $('#quote').textContent = "“The best error message is the one that never shows up.”";
     }
 
     renderCustom();

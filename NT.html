@@ -247,13 +247,38 @@
       requestAnimationFrame(() => window.parent?.postMessage({ type:'navigate', url }, '*'));
     };
 
-    // SEARCH
-    $('#searchForm').addEventListener('submit', e => {
-      e.preventDefault();
-      const q = $('#searchInput').value.trim();
-      if (!q) return;
-      nav($('#engineSelect').value + encodeURIComponent(q));
+// SEARCH HANDLER
+const searchForm = document.getElementById('searchForm');
+const searchInput = document.getElementById('searchInput');
+const engineSelect = document.getElementById('engineSelect');
+
+searchForm.addEventListener('submit', e => {
+  e.preventDefault(); // Prevent normal form submission
+  const query = searchInput.value.trim();
+  if (!query) return;
+
+  const url = engineSelect.value + encodeURIComponent(query);
+
+  if (window.parent) {
+    // Show loader
+    const loader = document.getElementById('loader');
+    loader.classList.add('show');
+    loader.offsetHeight; // Force reflow
+
+    // Navigate via parent message
+    requestAnimationFrame(() => {
+      window.parent.postMessage({ type: 'navigate', url }, '*');
     });
+  }
+});
+
+// Optional: trigger search when pressing Enter in the input
+searchInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    searchForm.dispatchEvent(new Event('submit', { cancelable: true }));
+  }
+});
 
     // ICON CLICK + ADD NEW
     $('#iconGrid').addEventListener('click', e => {
